@@ -10,8 +10,15 @@ public class Contact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column(columnDefinition = "varchar(200)", nullable = false)
     private String name;
+    @Column(columnDefinition = "varchar(200)", nullable = false)
     private String email;
+
+    public Contact(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
 
     public Contact() {
     }

@@ -3,6 +3,8 @@
 <head th:replace="partials/header :: head"/>
 <body>
 <navbar th:replace="partials/navbar :: navbar"/>
+<h2>Viewing all posts</h2>
+
 <div th:each="post : ${posts}">
     <h1 th:text="${post.title}"></h1>
     <h5 th:text="${post.body}"></h5>
