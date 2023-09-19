@@ -15,6 +15,10 @@ public class Post {
     @Column(columnDefinition = "varchar(200)", nullable = false)
     private String body;
 
+    @ManyToOne
+    @JoinColumn (name = "user_id")
+    private User user;
+
     public Post() {
     }
 
