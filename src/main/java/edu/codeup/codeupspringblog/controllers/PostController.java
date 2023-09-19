@@ -4,6 +4,7 @@ import edu.codeup.codeupspringblog.models.Contact;
 import edu.codeup.codeupspringblog.models.Post;
 import edu.codeup.codeupspringblog.repository.ContactRepository;
 import edu.codeup.codeupspringblog.repository.PostRepository;
+import edu.codeup.codeupspringblog.repository.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +18,13 @@ public class PostController {
 
     // dependency injection start
     private PostRepository postDao;
+    private UserRepository userDao;
 
-    public PostController(PostRepository postDao) {
+    public PostController(PostRepository postDao, UserRepository userDao) {
         this.postDao = postDao;
+        this.userDao = userDao;
     }
+
 
     // dependency injection end
 
