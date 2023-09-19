@@ -14,11 +14,15 @@ import java.util.List;
 @Controller
 @RequestMapping("/posts")
 public class PostController {
+
+    // dependency injection start
     private PostRepository postDao;
 
     public PostController(PostRepository postDao) {
         this.postDao = postDao;
     }
+
+    // dependency injection end
 
     @GetMapping("/posts/view")
     public String returnPosts(Model model) {
@@ -28,17 +32,21 @@ public class PostController {
 
     @GetMapping("")
     public String indexPage(Model model) {
-        model.addAttribute("posts",postDao.findAll());
+        model.addAttribute("posts", postDao.findAll());
         return "posts/index";
     }
 
     @GetMapping("/{id}")
     public String viewIndividualPost(@PathVariable long id, Model model) {
-        Post post = new Post();
-        post.setTitle("title");
-        post.setBody("body");
-        model.addAttribute("post", post);
-        return "posts/show";
+        if (postDao.existsById(id)) {
+            //use .get() anytime you want to get by id
+            Post post = postDao.findById(id).get();
+            model.addAttribute("post", post);
+            return "posts/show";
+
+        }
+        return "redirect:/posts";
+
     }
 
     @GetMapping("/posts")
@@ -54,8 +62,8 @@ public class PostController {
 
 
     @PostMapping("/create")
-    public String CreatePost(@RequestParam(name = "title")String title ,@RequestParam(name = "body")String body) {
-        Post post = new Post(title,body);
+    public String CreatePost(@RequestParam(name = "title") String title, @RequestParam(name = "body") String body) {
+        Post post = new Post(title, body);
         postDao.save(post);
         return "redirect:/posts";
     }

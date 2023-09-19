@@ -5,11 +5,11 @@
 <navbar th:replace="partials/navbar :: navbar"/>
 <h2>Viewing all posts</h2>
 
+
 <div th:each="post : ${posts}">
-    <h1 th:text="${post.title}"></h1>
+    <h1><a th:href="@{|/posts/${post.id}|}" th:text="${post.title}"></a></h1>
     <h5 th:text="${post.body}"></h5>
 </div>
-
 
 
 <footer th:replace="partials/footer :: footer"/>
