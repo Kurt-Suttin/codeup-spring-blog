@@ -5,6 +5,8 @@
 <navbar th:replace="partials/navbar :: navbar"/>
 <h2 th:text="${post.getTitle()}"></h2>
 <h2 th:text="${post.getBody()}"></h2>
+<h2 th:text="${post.getUser().getEmail()}"></h2>
+
 <footer th:replace="partials/footer :: footer"/>
 </body>
 </html>
