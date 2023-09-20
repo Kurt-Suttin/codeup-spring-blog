@@ -67,11 +67,30 @@ public class PostController {
 
 
     @PostMapping("/create")
-    public String CreatePost(@RequestParam(name = "title") String title, @RequestParam(name = "body") String body)
-    {
+    public String CreatePost(@ModelAttribute Post post) {
         User user = userDao.findById(1L).get();
-        Post post = new Post(title, body,user );
-        postDao.save(post);
+        Post postToSave = new Post(
+                post.getTitle(),
+                post.getBody(),
+                user
+        );
+        postDao.save(postToSave);
+        return "redirect:/posts";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String viewEditPost(@PathVariable long id, Model model) {
+        Post postToView = postDao.findById(id).get();
+        model.addAttribute("post", postToView);
+        return "posts/edit";
+    }
+
+    @PostMapping("/{id}/edit")
+    public String editPost(@ModelAttribute Post post) {
+        Post postToEdit = postDao.findById(post.getId()).get();
+        postToEdit.setTitle(post.getTitle());
+        postToEdit.setBody(post.getBody());
+        postDao.save(postToEdit);
         return "redirect:/posts";
     }
 

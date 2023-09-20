@@ -6,7 +6,7 @@
 <h2 th:text="${post.getTitle()}"></h2>
 <h2 th:text="${post.getBody()}"></h2>
 <h2 th:text="${post.getUser().getEmail()}"></h2>
-
+<h3><a th:href="@{|/posts/${post.id}/edit|}">Edit me!!</a></h3>
 <footer th:replace="partials/footer :: footer"/>
 </body>
 </html>
