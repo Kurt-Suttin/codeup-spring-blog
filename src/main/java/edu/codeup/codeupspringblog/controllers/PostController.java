@@ -2,6 +2,7 @@ package edu.codeup.codeupspringblog.controllers;
 
 import edu.codeup.codeupspringblog.models.Contact;
 import edu.codeup.codeupspringblog.models.Post;
+import edu.codeup.codeupspringblog.models.User;
 import edu.codeup.codeupspringblog.repository.ContactRepository;
 import edu.codeup.codeupspringblog.repository.PostRepository;
 import edu.codeup.codeupspringblog.repository.UserRepository;
@@ -66,8 +67,10 @@ public class PostController {
 
 
     @PostMapping("/create")
-    public String CreatePost(@RequestParam(name = "title") String title, @RequestParam(name = "body") String body, @RequestParam(name = "user_id") Long id) {
-        Post post = new Post(title, body, userDao.findById(id).get());
+    public String CreatePost(@RequestParam(name = "title") String title, @RequestParam(name = "body") String body)
+    {
+        User user = userDao.findById(1L).get();
+        Post post = new Post(title, body,user );
         postDao.save(post);
         return "redirect:/posts";
     }

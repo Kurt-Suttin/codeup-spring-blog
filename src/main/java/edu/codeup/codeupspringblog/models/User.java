@@ -12,12 +12,13 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(columnDefinition = "varchar(200)", nullable = false)
+    @Column(columnDefinition = "varchar(200)", nullable = false, unique = true)
     private String username;
-    @Column(columnDefinition = "varchar(200)", nullable = false)
+    @Column(columnDefinition = "varchar(200)", nullable = false,unique = true)
     private String email;
     @Column(columnDefinition = "varchar(200)", nullable = false)
     private String password;
+
     //  In your User and Post classes, define the post - user relationship.
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "user")
     private List<Post> posts;
