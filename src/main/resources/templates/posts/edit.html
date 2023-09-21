@@ -3,25 +3,18 @@
 <head th:replace="partials/header :: head"/>
 <body>
 <navbar th:replace="partials/navbar :: navbar"/>
+
 <div>
-<!--  <h1>In the edit html</h1>-->
-  <form th:object="${post}" th:action="@{|/posts/${post.id}/edit|}" th:method="Post">
-
-    <label for="title">Title:</label>
-
-    <input type="text" th:field="*{title}" id="title" placeholder="Title"  class="form-control"
-           required><br><br>
-
-    <label for="body">Body:</label><br>
-
-    <textarea id="body" th:field="*{body}"  placeholder="body" type="text" class="form-control"
-              required></textarea><br><br>
-
-
-
-    <input type="submit" value="Create Post">
-
-  </form>
+    <!--  <h1>In the edit html</h1>-->
+    <form th:object="${post}" th:action="@{|/posts/${post.id}/edit|}" th:method="Post">
+        <label for="title">Title:</label>
+        <input type="text" th:field="*{title}" id="title" placeholder="Title" class="form-control"
+               required><br><br>
+        <label for="body">Body:</label><br>
+        <textarea id="body" th:field="*{body}" placeholder="body" type="text" class="form-control"
+                  required></textarea><br><br>
+        <input type="submit" value="Create Post">
+    </form>
 </div>
 
 </body>

@@ -1,16 +1,14 @@
 package edu.codeup.codeupspringblog.controllers;
 
-import edu.codeup.codeupspringblog.models.Contact;
 import edu.codeup.codeupspringblog.models.Post;
 import edu.codeup.codeupspringblog.models.User;
-import edu.codeup.codeupspringblog.repository.ContactRepository;
 import edu.codeup.codeupspringblog.repository.PostRepository;
 import edu.codeup.codeupspringblog.repository.UserRepository;
+import edu.codeup.codeupspringblog.services.EmailSvc;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -18,10 +16,14 @@ import java.util.List;
 public class PostController {
 
     // dependency injection start
+    private final EmailSvc emailService;
     private PostRepository postDao;
     private UserRepository userDao;
 
-    public PostController(PostRepository postDao, UserRepository userDao) {
+    // same name as class always
+
+    public PostController(EmailSvc emailService, PostRepository postDao, UserRepository userDao) {
+        this.emailService = emailService;
         this.postDao = postDao;
         this.userDao = userDao;
     }
@@ -73,7 +75,9 @@ public class PostController {
                 post.getTitle(),
                 post.getBody(),
                 user
+
         );
+        emailService.prepareAndSend(user,"HELLO","hello");
         postDao.save(postToSave);
         return "redirect:/posts";
     }
@@ -86,8 +90,8 @@ public class PostController {
     }
 
     @PostMapping("/{id}/edit")
-    public String editPost(@ModelAttribute Post post) {
-        Post postToEdit = postDao.findById(post.getId()).get();
+    public String editPost(@ModelAttribute Post post, @PathVariable long id) {
+        Post postToEdit = postDao.findById(id).get();
         postToEdit.setTitle(post.getTitle());
         postToEdit.setBody(post.getBody());
         postDao.save(postToEdit);
