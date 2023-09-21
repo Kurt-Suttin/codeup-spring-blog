@@ -5,6 +5,7 @@ import edu.codeup.codeupspringblog.models.User;
 import edu.codeup.codeupspringblog.repository.PostRepository;
 import edu.codeup.codeupspringblog.repository.UserRepository;
 import edu.codeup.codeupspringblog.services.EmailSvc;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -70,14 +71,16 @@ public class PostController {
 
     @PostMapping("/create")
     public String CreatePost(@ModelAttribute Post post) {
-        User user = userDao.findById(1L).get();
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        User user = userDao.findById(loggedInUser.getId()).get();
         Post postToSave = new Post(
                 post.getTitle(),
                 post.getBody(),
                 user
 
         );
-        emailService.prepareAndSend(user,"HELLO","hello");
+        emailService.prepareAndSend(user, "HELLO", "hello");
         postDao.save(postToSave);
         return "redirect:/posts";
     }
